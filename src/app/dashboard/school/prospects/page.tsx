@@ -3,7 +3,7 @@ import Prospecttable from '@/app/components/dashboard/students/prospect/prospect
 import React, {useState, useEffect} from 'react'
 import RealtimeLoader from '@/app/components/loader/loader'
 import { getAllProspects } from '@/app/utils/studentData'
-function page() {
+function Page() {
   const [isModalOpen, setModalOpen] = useState(false);
   const [students, setStudents] = useState([])
   const [reloadData, setReloadData] = useState(false);
@@ -55,4 +55,4 @@ function page() {
   )
 }
 
-export default page
+export default Page
