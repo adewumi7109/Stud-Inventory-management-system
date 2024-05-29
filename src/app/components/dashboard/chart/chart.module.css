@@ -1,0 +1,17 @@
+.container{
+   
+    padding: 20px;
+    background-color: var(--bgSoft);
+    border-radius: 10px;
+    height: 300px;
+}
+
+.title{
+    font-weight: 200;
+    margin-bottom: 20px;
+    color: var(--textSoft);
+}
+.chart{
+    width: 100%;
+    background-color: red;
+}

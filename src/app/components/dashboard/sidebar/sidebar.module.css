@@ -1,0 +1,38 @@
+.container{
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 12px;
+    color: white;
+}
+
+.wrapper{
+    margin-top: 35px;
+}
+.title{
+    font-size: 1rem;
+}
+
+.inv{
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    /* padding: 15px; */
+    border-radius: 4px;
+    color: white;
+    
+}
+.env{
+    color: white;
+}
+.env:hover{
+    color: teal;
+    }
+    
+    .active{
+        background-color: #2e374a;
+    }
+
+  
+  

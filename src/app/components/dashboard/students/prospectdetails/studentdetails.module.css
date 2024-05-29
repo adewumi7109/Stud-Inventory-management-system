@@ -1,0 +1,76 @@
+.header{
+    height: 25vh;
+    /* background-color: red; */
+    background-image: url('./tech.jpg');
+    background-size: cover;
+    object-fit: cover;
+    background-position: center;
+    opacity: 0.9;
+}
+
+.container h2{
+    margin-top: 10px;
+}
+
+
+.action_btns{
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+.action_btns button{
+    padding: 8px 10px;
+    cursor: pointer;
+    border: none;
+    color: white;
+    border-radius: 4px;
+}
+
+.info{
+    margin-bottom: 10px;
+    display: flex;
+    gap: 7px;
+    align-items: center;
+}
+.info p{
+    font-size: 1rem;
+}
+.success{
+    background-color: teal;
+    
+}
+.warning{
+    background-color: #ffa01a;
+    
+}
+.danger{
+    background-color:#bb2124;
+    
+}
+
+.title{
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title h4{
+    color: #646262;
+}
+
+.enrBtn{
+    background-color: teal;
+    padding: 8px 10px;
+    cursor: pointer;
+    border: none;
+    color: white;
+    border-radius: 4px;
+}
+.programT{
+    /* color: teal; */
+    font-size: .8rem;
+    margin-top: 2px;
+    font-weight: bolder;
+
+}

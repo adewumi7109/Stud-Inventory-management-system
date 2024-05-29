@@ -1,0 +1,46 @@
+.container{
+    background-color:white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    color: #5d57c9;
+   
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+.profile{
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.icon{
+    font-size: 2rem;
+}
+.pathname{
+    color: #5d57c9;
+    font-size: .8rem;
+}
+
+.user{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.button{
+    
+ 
+    background-color: var(--bgSoft);
+ 
+    border: none;
+
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    border-radius: 3px;
+    color: white;
+    padding: 5px;
+}

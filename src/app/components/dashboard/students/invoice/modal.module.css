@@ -1,0 +1,62 @@
+/* Modal.module.css */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.5ms ease-in-out;
+  }
+  
+  .modalContent {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    color: #182237;
+    width: 30%;
+    /* overflow-Y: scroll; */
+    /* height: 90vh; */
+    transition: 0.5ms ease-in-out;
+  }
+  .modalContent form{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-top: 25px;
+  }
+
+  .formGroup{
+    display: flex;
+    flex-direction: column;
+   gap: 10px;
+    width: 100%;
+  }
+  
+
+.modalContent input, .modalContent button{
+  height: 6vh;
+}
+
+.modalContent input[type="text"], .modalContent input[type="email"], .modalContent input[type="number"]{
+  padding-left: 8px;
+}
+
+  .formGroup button{
+    
+    border: none;
+    background-color: #182237;
+    cursor: pointer;
+    font-size: 1.1rem;
+    color: white;
+   
+  }
+  .error{
+    color: crimson;
+}
+
+ 
+

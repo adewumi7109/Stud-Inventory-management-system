@@ -1,0 +1,93 @@
+/* Modal.module.css */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.5ms ease-in-out;
+  }
+  
+  .modalContent {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    color: #182237;
+    width: 45%;
+    overflow-Y: scroll;
+    height: 90vh;
+    transition: 0.5ms ease-in-out;
+  }
+  .modalContent form{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-top: 25px;
+  }
+  .col{
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+  
+  }
+  .formGroup{
+    display: flex;
+    flex-direction: column;
+   gap: 10px;
+    width: 48%;
+  }
+  
+ .col  input, .col  select{
+    width: 100%;
+    height: 7vh;
+    padding-left: 10px;
+    border-radius: 2px;
+    border: 1px solid #b09f9f;
+    outline-color:#182237;
+  }
+  
+  .row{
+    display: flex;
+    flex-direction: column;
+   gap: 9px;
+    width:100%;
+  
+  }
+
+  .row select{
+    height: 7vh;
+    padding-left: 10px;
+    border-radius: 2px;
+    border: 1px solid #b09f9f;
+    outline-color:#182237;
+  }
+
+
+  .btns{
+   
+    display: flex;
+    gap: 20px;
+    justify-content: right;
+  }
+
+  .btns button{
+    
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    font-size: 1.1rem;
+   
+  }
+
+  .btns button:nth-child(2){
+    color: teal;
+  }
+
+  .error{
+  color: rgb(224, 0, 45);
+
+}

@@ -1,0 +1,56 @@
+.container{
+    height: 100vh;
+    width: 100%;
+    background-color: var(--bgSoft);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.title{
+    /* color: white; */
+}
+.formWrapper{
+ 
+    
+ 
+    background-color: white;
+    width: 500px;
+    padding: 20px;
+    border-radius: 5px;
+    
+
+}
+.formWrapper form input{
+    height: 7vh;
+    outline: none;
+
+}
+.formWrapper form a{
+ color: teal;
+
+}
+.formGroup{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+
+
+}
+.submitBtn{
+    background-color: var(--bgSoft);
+    color: white;
+    cursor: pointer;
+    border: none;
+    font-size: 1rem;
+    font-weight: bolder;
+}
+.inputBox{
+    padding-left: 10px;
+    font-size: 1rem;
+}
+.error{
+    color: crimson;
+}

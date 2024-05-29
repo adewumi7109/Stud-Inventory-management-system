@@ -1,0 +1,83 @@
+.header{
+    height: 15vh;
+    /* background-color: red; */
+    background-image: url('./tech.jpg');
+    background-size: cover;
+    object-fit: cover;
+    background-position: center;
+    opacity: 0.9;
+    margin-bottom: 10px;
+}
+.wrapper{
+    display: flex;
+    align-items: center;
+    gap: 50px;
+
+
+}
+.container h2{
+    margin-top: 10px;
+}
+
+.name{
+    margin-bottom: 20px;
+}
+.action_btns{
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+.action_btns button{
+    padding: 8px 10px;
+    cursor: pointer;
+    border: none;
+    color: white;
+    border-radius: 4px;
+}
+
+.info{
+    margin-bottom: 10px;
+}
+.info p{
+    font-size: 1rem;
+}
+.success{
+    background-color: teal;
+    
+}
+.warning{
+    background-color: #ffa01a;
+    
+}
+.danger{
+    background-color:#bb2124;
+    
+}
+
+.skeletonRow {
+    background-color: #f2f2f2; /* Light gray background color */
+  }
+  
+  .skeletonCell {
+    height: 20px;
+    width: 100px;
+    background-color: #e0e0e0; /* Gray background color */
+    margin: 5px;
+    border-radius: 4px;
+  }
+  
+
+.qr button{
+    background-color: teal;
+    padding: 8px 10px;
+    cursor: pointer;
+    border: none;
+    color: white;
+    border-radius: 4px;
+}
+.qr{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 15px;
+}

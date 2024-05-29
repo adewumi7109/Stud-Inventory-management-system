@@ -1,0 +1,30 @@
+.container{
+    
+   
+}
+.menu{
+    flex: 1;
+    background-color: var(--bgSoft);
+    padding: 20px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+    z-index: 1;
+    width: 280px;
+}
+
+.content{
+    margin-left: 280px;
+    width:(100% - 280px);
+    padding: 20px;
+}
+
+.loader{
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 100vh; 
+    background-color: transparent;
+}
