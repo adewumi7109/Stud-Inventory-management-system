@@ -9,10 +9,13 @@ export const AuthProvider = ({ children }) => {
     const router = useRouter();
 
     useEffect(() => {
+      if (typeof window !== "undefined") {
         const storedUserData = localStorage.getItem('userData');
         if (storedUserData) {
             setUserData(JSON.parse(storedUserData));
         }
+
+      }
     }, []);
 
     const signin = (userData) => {
