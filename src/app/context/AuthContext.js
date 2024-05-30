@@ -9,13 +9,13 @@ export const AuthProvider = ({ children }) => {
     const router = useRouter();
 
     useEffect(() => {
-      if (typeof window !== "undefined") {
-        const storedUserData = localStorage.getItem('userData');
-        if (storedUserData) {
-            setUserData(JSON.parse(storedUserData));
+        // Only run this effect on the client side
+        if (typeof window !== "undefined") {
+            const storedUserData = localStorage.getItem('userData');
+            if (storedUserData) {
+                setUserData(JSON.parse(storedUserData));
+            }
         }
-
-      }
     }, []);
 
     const signin = (userData) => {
@@ -27,12 +27,8 @@ export const AuthProvider = ({ children }) => {
     };
 
     const getUserName = () => {
-        if (typeof window !== "undefined") {
-            const user = localStorage.getItem('userData');
-            const userData = user ? JSON.parse(user) : null;
-            if (userData && userData.response && userData.response.userName) {
-                return userData.response.userName;
-            }
+        if (userData && userData.response && userData.response.userName) {
+            return userData.response.userName;
         }
         return null;
     };
@@ -50,6 +46,6 @@ export const AuthProvider = ({ children }) => {
             {children}
         </AuthContext.Provider>
     );
-}
+};
 
 export default AuthContext;

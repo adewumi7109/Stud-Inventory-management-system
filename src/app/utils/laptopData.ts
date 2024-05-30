@@ -2,10 +2,12 @@ import axios, { AxiosInstance } from 'axios';
 
 // Function to get the token from localStorage
 const getToken = (): string | null => {
-  const storedUserDataString = localStorage.getItem('userData');
-  if (storedUserDataString) {
-    const storedUserData = JSON.parse(storedUserDataString);
-    return storedUserData.response.token;
+  if (typeof window !== "undefined") {
+    const storedUserDataString = localStorage.getItem('userData');
+    if (storedUserDataString) {
+      const storedUserData = JSON.parse(storedUserDataString);
+      return storedUserData.response.token;
+    }
   }
   return null;
 };
