@@ -1,75 +1,59 @@
-"use client"
-import { useCallback, useContext, useEffect, useState } from 'react'
-// import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import Sidebar from '../components/dashboard/sidebar/sidebar'
-import Navbar from '../components/dashboard/navbar/navbar'
-import { Inter } from 'next/font/google'
-import styles from '../components/dashboard/dashboard.module.css'
-import { redirect } from 'next/navigation'
+"use client";
+import { useCallback, useContext, useEffect, useState } from 'react';
+import Sidebar from '../components/dashboard/sidebar/sidebar';
+import Navbar from '../components/dashboard/navbar/navbar';
+import { Inter } from 'next/font/google';
+import styles from '../components/dashboard/dashboard.module.css';
 import ClipLoader from "react-spinners/ClipLoader";
-import { useRouter } from 'next/navigation'
-import AuthContext from '@/app/context/AuthContext'
-const inter = Inter({ subsets: ['latin'] })
+import { useRouter } from 'next/navigation';
+import AuthContext from '@/app/context/AuthContext';
 
-  
-export default  function DashboardLayout( 
+const inter = Inter({ subsets: ['latin'] });
 
-  {
-  
-  children
+export default function DashboardLayout({
+  children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
-  
-const [loading, setLoading] = useState(false);
-useEffect(()=>{
-  setLoading(true)
-  setTimeout((()=>{
-    setLoading(false)
-
-  }),2000)
-},[])
-const {getUserName}:any = useContext(AuthContext);
-
-const router = useRouter();
+  const [loading, setLoading] = useState(true);
+  const { getUserName, isAuthLoading }: any = useContext(AuthContext); // Include isAuthLoading
+  const router = useRouter();
 
   useEffect(() => {
-    if (!getUserName()) {
+    setLoading(true);
+    const timer = setTimeout(() => setLoading(false), 2000);
+    return () => clearTimeout(timer); // Clean up the timeout
+  }, []);
+
+  useEffect(() => {
+    if (!isAuthLoading && !getUserName()) {
       router.push('/');
     }
-  }, [getUserName()]);
+  }, [getUserName, isAuthLoading, router]);
 
-
-
-  return  (
- 
+  return (
     <div className={inter.className}>
-     {
-      loading? <div className={styles.loader}><ClipLoader
-      color={'#2e374a'}
-      loading={loading}
-      // cssOverride={override}
-      size={150}
-      aria-label="Loading Spinner"
-      data-testid="loader"
-    /></div>
-      :
-      <div className={styles.container}>
-      <div className={styles.menu}>
-     
-          <Sidebar/>
-      </div>
-      <div className={styles.content}>
-     
-          <Navbar userName={getUserName}/>
-           
-          {children}
-      </div>
-  </div>
-     }
+      {loading ? (
+        <div className={styles.loader}>
+          <ClipLoader
+            color={'#2e374a'}
+            loading={loading}
+            size={150}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+        </div>
+      ) : (
+        <div className={styles.container}>
+          <div className={styles.menu}>
+            <Sidebar />
+          </div>
+          <div className={styles.content}>
+            <Navbar userName={getUserName} />
+            {children}
+          </div>
+        </div>
+      )}
     </div>
- 
-
-
-  )
+  );
 }

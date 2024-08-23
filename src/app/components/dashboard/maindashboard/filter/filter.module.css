@@ -1,0 +1,22 @@
+.wrapper{
+    display: flex;
+     justify-content: end;
+}
+.cont{
+    margin-bottom: 20px;
+    display: flex;
+    gap: 20px;
+  
+}
+.formControl{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.formControl input{
+    height: 30px;
+    cursor: pointer;
+    border: 1px solid var(--bgSoft);
+    padding: 5px;
+    border-radius: 5px;
+}

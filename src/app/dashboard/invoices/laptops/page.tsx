@@ -48,13 +48,19 @@ function Page() {
     fetchData();
   }, [reloadData]);
 
+  const modifiedInvoices = invoices.map((invoice: any) => ({
+    ...(invoice as any),
 
+    description: ` ${invoice?.laptop.brand} ${invoice?.laptop.model} - ${invoice?.laptop.ram} Ram, ${invoice?.laptop.storageSize} ${invoice?.laptop.storageType}`,
+    
+  }));
+  
 
 
 
   return (
     <>
-    <LaptopInvoicesTable  loading={loading} invoices={invoices}/>
+    <LaptopInvoicesTable  loading={loading} invoices={modifiedInvoices}/>
    
     </>
   );

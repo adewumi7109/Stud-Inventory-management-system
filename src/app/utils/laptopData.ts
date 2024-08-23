@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from 'axios';
+import axios from 'axios';
 
 // Function to get the token from localStorage
 const getToken = (): string | null => {
@@ -11,50 +11,62 @@ const getToken = (): string | null => {
   }
   return null;
 };
+const baseURL = process.env.NEXT_PUBLIC_LOCALHOST_BASE_URL;
 // Create an Axios instance with default configuration
-const token = getToken();
-// console.log("TOKEN: ", token)
 const axiosInstance = axios.create({
-  baseURL: 'https://localhost:7014/api/',
+  baseURL: baseURL,
   headers: {
-    'Content-Type': 'application/json',
-    // Add authorization header with the token
-    'Authorization': `Bearer ${token}`
+    'Content-Type': 'application/json'
   }
 });
 
-// // Add an interceptor to update headers before each request is sent
-// axiosInstance.interceptors.request.use((config) => {
-//   // Get the token from localStorage
-//   const token = getToken();
-//   // If token exists, set Authorization header with the token
-//   if (token) {
-//     config.headers['Authorization'] = `Bearer ${token}`;
-//   }
-//   return config;
-// });
-// Function to update headers with the token
-const updateHeaders = () => {
-  axiosInstance.defaults.headers['Authorization'] = `Bearer ${token}`;
-};
-updateHeaders()
+// Add an interceptor to update headers before each request is sent
+axiosInstance.interceptors.request.use((config) => {
+  // Get the token from localStorage
+  const token = getToken();
+  // If token exists, set Authorization header with the token
+  if (token) {
+    config.headers['Authorization'] = `Bearer ${token}`;
+  }
+  return config;
+}, (error) => {
+  // Handle the error
+  return Promise.reject(error);
+});
+
 // Function to handle errors
-const handleErrors = (error:any) => {
+const handleErrors = (error: any) => {
   console.error('Error:', error);
   throw error;
 };
 
+// export const getAllLaptops = async () => {
+//   try {
+//     const response = await axiosInstance.get('Laptops');
+//     return response.data;
+//   } catch (error) {
+//     handleErrors(error);
+//   }
+// };
 
-export const getAllLaptops = async () => {
+export const getAllLaptops = async (pageNumber = 1, pageSize = 10, SearchQuery= "") => {
   try {
-    const response = await axiosInstance.get('Laptops');
-    return response.data;
+    const response = await axiosInstance.get(`Laptops?pageNumber=${pageNumber}&pageSize=${pageSize}&name=${SearchQuery}`);
+    const totalItems = parseInt(response.data.pagination.totalItems);
+    const totalPages = parseInt(response.data.pagination.totalPages);
+    console.log("totalItems: ", totalItems, pageSize)
+    return {
+      laptops: response.data.laptops,
+      laptopCounts: response.data.pagination.totalItems,
+      totalItems,
+      totalPages,
+    };
   } catch (error) {
     handleErrors(error);
   }
 };
 
-export const fetchLaptopById = async (id:any) => {
+export const fetchLaptopById = async (id: any) => {
   try {
     const response = await axiosInstance.get(`Laptops/${id}`);
     return response.data;
@@ -62,8 +74,16 @@ export const fetchLaptopById = async (id:any) => {
     handleErrors(error);
   }
 };
+export const soldLaptopsCount = async () => {
+  try {
+    const response = await axiosInstance.get(`Laptops/soldlaptopcount`);
+    return response.data;
+  } catch (error) {
+    handleErrors(error);
+  }
+};
 
-export const updateLaptop = async (id:any, laptopData:any) => {
+export const updateLaptop = async (id: any, laptopData: any) => {
   try {
     const response = await axiosInstance.put(`Laptops/${id}`, laptopData);
     return response.data;
@@ -72,7 +92,7 @@ export const updateLaptop = async (id:any, laptopData:any) => {
   }
 };
 
-export const deleteLaptop = async (id:any) => {
+export const deleteLaptop = async (id: any) => {
   try {
     const response = await axiosInstance.delete(`Laptops/${id}`);
     return response.data;
@@ -81,17 +101,16 @@ export const deleteLaptop = async (id:any) => {
   }
 };
 
-export const storeLaptop = async (laptopData:any) => {
+export const storeLaptop = async (laptopData: any) => {
   try {
     const response = await axiosInstance.post('Laptops', laptopData);
     return response.data;
   } catch (error) {
-
     handleErrors(error);
   }
 };
 
-export const checkSerialNumber = async(serialNumber:any) => {
+export const checkSerialNumber = async (serialNumber: any) => {
   try {
     const response = await axiosInstance.get(`Laptops/check?serialNumber=${serialNumber}`);
     return response.data;
@@ -100,7 +119,7 @@ export const checkSerialNumber = async(serialNumber:any) => {
   }
 };
 
-export const getAllLaptopInvoices = async() => {
+export const getAllLaptopInvoices = async () => {
   try {
     const response = await axiosInstance.get(`Laptops/invoices`);
     return response.data;

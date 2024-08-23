@@ -1,16 +1,32 @@
-import React, { useState } from 'react';
-import styles from '@/app/components/dashboard/laptops/laptops.module.css';
-import RealtimeLoader from '@/app/components/loader/loader';
-import Link from 'next/link';
-import { flexRender, getCoreRowModel, getPaginationRowModel, useReactTable } from '@tanstack/react-table';
-import Modal from '@/app/components/dashboard/laptops/modal/modal';
-import Search from '@/app/components/dashboard/search/search';
-import { FaPrint } from 'react-icons/fa';
-import { generateReport } from '@/app/lib/jsreportservice';
+import React, { useState } from "react";
+import styles from "@/app/components/dashboard/laptops/laptops.module.css";
+import RealtimeLoader from "@/app/components/loader/loader";
+import { FaPrint } from "react-icons/fa";
+import {
+  flexRender,
+  getCoreRowModel,
+  getPaginationRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+import { generateReport } from "@/app/lib/jsreportservice";
 
 const LaptopInvoicesTable = ({ invoices, loading }) => {
-  const handleGenerateReport = (invoiceId) => {
-    const invoice = invoices.find(invoice => invoice.invoiceId === invoiceId);
+  const [isLoading, setIsLoading] = useState(false);
+  const [loadingInvoiceId, setLoadingInvoiceId] = useState(null);
+
+  const handleGenerateReport = async (invoiceId) => {
+    setIsLoading(true);
+    setLoadingInvoiceId(invoiceId);
+
+    const invoice = invoices.find((invoice) => invoice.invoiceId === invoiceId);
+
+    if (!invoice) {
+      console.error("Invoice not found");
+      setIsLoading(false);
+      setLoadingInvoiceId(null);
+      return;
+    }
+
     const data = {
       Invoice: {
         Name: invoice.customerName,
@@ -18,8 +34,11 @@ const LaptopInvoicesTable = ({ invoices, loading }) => {
         Phone: invoice.phone,
         Email: invoice.email,
         InvoiceNumber: invoice.invoiceNumber,
-        Date: invoice.createdAt.split(' ')[0],
-        Price: invoice.laptop.price.toLocaleString(),
+        Date: invoice.createdAt.split(" ")[0],
+        Price: new Intl.NumberFormat("en-US", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        }).format(invoice.laptop.price),
         Laptop: {
           Brand: invoice.laptop.brand,
           Model: invoice.laptop.model,
@@ -29,33 +48,56 @@ const LaptopInvoicesTable = ({ invoices, loading }) => {
           StorageType: invoice.laptop.storageType,
           SerialNumber: invoice.laptop.serialNumber,
           Processor_speed: invoice.laptop.processorSpeed,
-        }
-      }
+        },
+      },
     };
-    generateReport(data);
-  }
+
+    try {
+      await generateReport(data);
+    } catch (error) {
+      console.error("An error occurred while generating the report:", error);
+    } finally {
+      setIsLoading(false);
+      setLoadingInvoiceId(null);
+    }
+  };
 
   const columns = [
     {
-      accessorKey: 'createdAt',
-      header: 'Date',
+      accessorKey: "createdAt",
+      header: "Date",
+      cell: (props) => <p>{props.getValue().split(" ")[0]}</p>,
+    },
+    {
+      accessorKey: "customerName",
+      header: "Customer Name",
       cell: (props) => <p>{props.getValue()}</p>,
     },
     {
-      accessorKey: 'customerName',
-      header: 'Customer Name',
+      accessorKey: "laptop.serialNumber",
+      header: "Serial Number",
       cell: (props) => <p>{props.getValue()}</p>,
     },
     {
-      accessorKey: 'laptop.serialNumber',
-      header: 'Serial Number',
+      accessorKey: "description",
+      header: "Description",
       cell: (props) => <p>{props.getValue()}</p>,
     },
     {
-      accessorKey: 'invoiceId',
-      header: 'Print',
+      accessorKey: "invoiceId",
+      header: "Print",
       cell: (props) => (
-          <FaPrint className={styles.print} size={30}  onClick={() => handleGenerateReport(props.row.original.invoiceId)} />
+        <div
+          className={styles.printButton}
+          onClick={() => handleGenerateReport(props.row.original.invoiceId)}
+          disabled={isLoading && loadingInvoiceId === props.row.original.invoiceId}
+        >
+          {isLoading && loadingInvoiceId === props.row.original.invoiceId ? (
+            <span>Printing...</span>
+          ) : (
+            <FaPrint size={30} />
+          )}
+        </div>
       ),
     },
   ];
@@ -70,10 +112,7 @@ const LaptopInvoicesTable = ({ invoices, loading }) => {
   return (
     <div>
       <div className={styles.container}>
-        <div className={styles.top}>
-          <Search placeholder="Search for invoice.." />
-          <div></div>
-        </div>
+        <div className={styles.top}></div>
 
         <table className={styles.table}>
           <thead>
@@ -97,7 +136,12 @@ const LaptopInvoicesTable = ({ invoices, loading }) => {
                 <tr key={row.id}>
                   {row.getVisibleCells().map((cell) => (
                     <td key={cell.id}>
-                      <span>{flexRender(cell.column.columnDef.cell, cell.getContext())}</span>
+                      <span>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </span>
                     </td>
                   ))}
                 </tr>
@@ -107,13 +151,20 @@ const LaptopInvoicesTable = ({ invoices, loading }) => {
         </table>
         <div className={styles.paginationCont}>
           <div>
-            {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
+            {table.getState().pagination.pageIndex + 1} of{" "}
+            {table.getPageCount()}
           </div>
           <div className={styles.paginationBtns}>
-            <button onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
+            <button
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
               {"<"}
             </button>
-            <button onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
+            <button
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
               {">"}
             </button>
           </div>

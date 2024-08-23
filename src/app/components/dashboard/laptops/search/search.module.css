@@ -1,0 +1,21 @@
+.container{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: rgba(23, 33, 53, 0.1);
+    padding: 10px;
+    border-radius: 10px;
+    width: max-content;
+   
+}
+
+.input{
+    background-color: transparent;
+    border: none;
+    color: #182237;
+    outline: none;
+}
+
+.input::placeholder{
+    color: rgba(23, 33, 53, 0.9);
+}

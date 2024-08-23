@@ -19,6 +19,10 @@ function Page() {
   const [laptops, setLaptops] = useState([]);
   const [reloadData, setReloadData] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize] = useState(5); 
+  const [totalPages, setTotalPages] = useState(0);
+  const [SearchQuery, setSearchQuery] = useState("")
  
   const openModal = () => {
     setModalOpen(true);
@@ -29,51 +33,13 @@ function Page() {
     setReloadData(true);
   };
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       setLoading(true);
-  //       const data:any = await fetchData();
-       
-  //       console.log("data:", data);
-  //       setLaptops(data);
-  //       setReloadData(false);
-  //     } catch (error:any) {
-  //       console.error('Error setting students data:', error.message);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, [reloadData]);
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await fetch('https://localhost:7014/api/Laptops');
-  //       if (!response.ok) {
-  //         throw new Error('Network response was not ok');
-  //       }
-  //       const jsonData = await response.json();
-  //       console.log(jsonData)
-  //     } catch (error) {
-  //       console.error('Error fetching data:', error);
-  //       // Handle error
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
-
-
   useEffect(() => {
     const getData = async () => {
       try {
         setLoading(true);
-        const fetchedData = await getAllLaptops();
-        setLaptops(fetchedData);
+        const { laptops, totalPages  }:any = await getAllLaptops(pageNumber, pageSize, SearchQuery);
+        setLaptops(laptops);
+        setTotalPages(totalPages);
         setReloadData(false);
       } catch (error) {
         // Handle error
@@ -83,20 +49,43 @@ function Page() {
     };
 
     getData();
-  }, [reloadData]);
+  }, [reloadData , pageNumber, pageSize, SearchQuery]);
+  
+  const handleNextPage = () => {
+    if (pageNumber < totalPages) {
+      setPageNumber(pageNumber + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (pageNumber > 1) {
+      setPageNumber(pageNumber - 1);
+    }
+  };
+
+  const modifiedLaptops = laptops.map((laptop: any) => ({
+    ...(laptop as any),
+    description: `${laptop?.brand} ${laptop?.model} - ${laptop?.ram} Ram, ${laptop?.storageSize} ${laptop?.storageType}`,
+  }));
   
 
-  // fetchData();
-  
-
-console.log("laptops:", laptops)
 
 
 
   return (
     <>
   
-    <Laptoptable closeModal={closeModal} isModalOpen={isModalOpen} openModal={openModal} loading={loading} laptops={laptops}/>
+    <Laptoptable 
+    closeModal={closeModal}
+     isModalOpen={isModalOpen} 
+     openModal={openModal} loading={loading}
+      laptops={modifiedLaptops}
+      pageNumber={pageNumber}
+      totalPages={totalPages}
+    searchQuery = {setSearchQuery}
+      handleNextPage={handleNextPage}
+      handlePreviousPage={handlePreviousPage}
+      />
    
     </>
   );

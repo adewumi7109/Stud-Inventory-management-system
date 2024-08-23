@@ -8,6 +8,10 @@ function Page() {
   const [students, setStudents] = useState([])
   const [reloadData, setReloadData] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize] = useState(5); 
+  const [totalPages, setTotalPages] = useState(0);
+  const [SearchQuery, setSearchQuery] = useState("")
 
   
   const openModal = () => {
@@ -25,8 +29,9 @@ function Page() {
     const getData = async () => {
       try {
         setLoading(true);
-        const fetchedData = await getAllProspects();
-        setStudents(fetchedData);
+        const { students, totalPages  }:any  = await getAllProspects(pageNumber, pageSize, SearchQuery);
+        setStudents(students);
+        setTotalPages(totalPages);
         setReloadData(false);
       } catch (error) {
         // Handle error
@@ -36,8 +41,19 @@ function Page() {
     };
 
     getData();
-  }, [reloadData]);
+  }, [reloadData , pageNumber, pageSize, SearchQuery]);
   
+  const handleNextPage = () => {
+    if (pageNumber < totalPages) {
+      setPageNumber(pageNumber + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (pageNumber > 1) {
+      setPageNumber(pageNumber - 1);
+    }
+  };
 
 
   const modifiedStudents = students.map((student: any) => ({
@@ -45,10 +61,21 @@ function Page() {
     details: `${student.firstname} ${student.lastname}-${student.email}`,
   }));
 
- 
   return (
     <>
-    <Prospecttable closeModal={closeModal} isModalOpen={isModalOpen} openModal={openModal} loading={loading} students={modifiedStudents}/>
+    <Prospecttable
+     closeModal={closeModal} 
+     isModalOpen={isModalOpen} 
+     openModal={openModal} 
+     loading={loading}
+    students={modifiedStudents}
+        pageNumber={pageNumber}
+        totalPages={totalPages}
+      searchQuery = {setSearchQuery}
+        handleNextPage={handleNextPage}
+        handlePreviousPage={handlePreviousPage}
+      
+      />
 
   
     </>

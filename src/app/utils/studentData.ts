@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from 'axios';
+import axios from 'axios';
 
 // Function to get the token from localStorage
 const getToken = (): string | null => {
@@ -11,63 +11,77 @@ const getToken = (): string | null => {
   }
   return null;
 };
+const baseURL = process.env.NEXT_PUBLIC_LOCALHOST_BASE_URL;
+console.log("BASE URL", baseURL)
 // Create an Axios instance with default configuration
-const token = getToken();
-// console.log("TOKEN: ", token)
 const axiosInstance = axios.create({
-  baseURL: 'https://localhost:7014/api/',
+  baseURL: baseURL,
   headers: {
-    'Content-Type': 'application/json',
-    // Add authorization header with the token
-    'Authorization': `Bearer ${token}`
+    'Content-Type': 'application/json'
   }
 });
 
-// // Add an interceptor to update headers before each request is sent
-// axiosInstance.interceptors.request.use((config) => {
-//   // Get the token from localStorage
-//   const token = getToken();
-//   // If token exists, set Authorization header with the token
-//   if (token) {
-//     config.headers['Authorization'] = `Bearer ${token}`;
-//   }
-//   return config;
-// });
-// Function to update headers with the token
-const updateHeaders = () => {
-  axiosInstance.defaults.headers['Authorization'] = `Bearer ${token}`;
-};
-updateHeaders()
+// Add an interceptor to update headers before each request is sent
+axiosInstance.interceptors.request.use((config) => {
+  // Get the token from localStorage
+  const token = getToken();
+  // If token exists, set Authorization header with the token
+  if (token) {
+    config.headers['Authorization'] = `Bearer ${token}`;
+  }
+  return config;
+}, (error) => {
+  // Handle the error
+  return Promise.reject(error);
+});
+
 // Function to handle errors
-const handleErrors = (error:any) => {
+const handleErrors = (error: any) => {
   console.error('Error:', error);
   throw error;
 };
 
-// Function to handle errors
-// const handleErrors = (error: any) => {
-//   console.error('Error:', error);
-//   throw error;
-// };
-
 // API functions
-export const getAllStudents = async () => {
+export const getAllStudents = async (pageNumber = 1, pageSize = 10, SearchQuery= "") => {
   try {
-    const response = await axiosInstance.get('Students');
-    return response.data;
+    const response = await axiosInstance.get(`Students?pageNumber=${pageNumber}&pageSize=${pageSize}&name=${SearchQuery}`);
+    const totalItems = parseInt(response.data.pagination.totalItems);
+    const totalPages = parseInt(response.data.pagination.totalPages);
+    return {
+      students: response.data.students,
+      counts: response.data.pagination.totalItems,
+      totalItems,
+      totalPages,
+    };
+  } catch (error) {
+    handleErrors(error);
+  }
+};
+export const getAllProspects = async (pageNumber = 1, pageSize = 10, SearchQuery= "") => {
+  try {
+    const response = await axiosInstance.get(`Students/prospects?pageNumber=${pageNumber}&pageSize=${pageSize}&name=${SearchQuery}`);
+    const totalItems = parseInt(response.data.pagination.totalItems);
+    const totalPages = parseInt(response.data.pagination.totalPages);
+    return {
+      students: response.data.students,
+      prospectsCounts: response.data.pagination.totalItems,
+      totalItems,
+      totalPages,
+    };
   } catch (error) {
     handleErrors(error);
   }
 };
 
-export const getAllProspects = async () => {
-  try {
-    const response = await axiosInstance.get('Students/prospects');
-    return response.data;
-  } catch (error) {
-    handleErrors(error);
-  }
-};
+
+// export const getAllProspects = async () => {
+//   try {
+//     const response = await axiosInstance.get('Students/prospects');
+//     return response.data;
+//   } catch (error) {
+//     handleErrors(error);
+//   }
+// };
 
 export const fetchStudentById = async (id: any) => {
   try {
@@ -118,3 +132,28 @@ export const generateStudentInvoice = async (invoiceData: any) => {
 };
 
 
+export const getAudits = async (pageNumber = 1, pageSize = 10, SearchQuery= "") => {
+  try {
+    const response = await axiosInstance.get(`Audits?pageNumber=${pageNumber}&pageSize=${pageSize}&name=${SearchQuery}`);
+    const totalItems = parseInt(response.data.pagination.totalItems);
+    const totalPages = parseInt(response.data.pagination.totalPages);
+    return {
+      audits: response.data.audit,
+      prospectsCounts: response.data.pagination.totalItems,
+      totalItems,
+      totalPages,
+    };
+  } catch (error) {
+    handleErrors(error);
+  }
+};
+
+export const getDashboardData = async () => {
+  try {
+    const response = await axiosInstance.get(`Dashboard/stats`);
+    console.log("Response: ", response)
+    return response.data;
+  } catch (error) {
+    handleErrors(error);
+  }
+};

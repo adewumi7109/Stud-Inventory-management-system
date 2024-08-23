@@ -6,15 +6,16 @@ const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
     const [userData, setUserData] = useState(null);
+    const [isAuthLoading, setIsAuthLoading] = useState(true); // New state to track loading
     const router = useRouter();
 
     useEffect(() => {
-        // Only run this effect on the client side
         if (typeof window !== "undefined") {
             const storedUserData = localStorage.getItem('userData');
             if (storedUserData) {
                 setUserData(JSON.parse(storedUserData));
             }
+            setIsAuthLoading(false); 
         }
     }, []);
 
@@ -27,7 +28,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     const getUserName = () => {
-        if (userData && userData.response && userData.response.userName) {
+        if (userData?.response?.userName) {
             return userData.response.userName;
         }
         return null;
@@ -42,7 +43,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ signin, getUserName, logout, userData }}>
+        <AuthContext.Provider value={{ signin, getUserName, logout, userData, isAuthLoading }}>
             {children}
         </AuthContext.Provider>
     );
