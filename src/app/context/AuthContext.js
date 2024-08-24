@@ -18,6 +18,7 @@ export const AuthProvider = ({ children }) => {
             setIsAuthLoading(false); 
         }
     }, []);
+    
 
     const signin = (userData) => {
         const userDataString = JSON.stringify(userData);
