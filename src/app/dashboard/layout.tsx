@@ -32,6 +32,7 @@ export default function DashboardLayout({
   //     setActive(false)
   //   }
   // });
+
   useEffect(() => {
     if (!isAuthLoading && !getUserName()) {
       router.push('/');
@@ -41,6 +42,15 @@ export default function DashboardLayout({
   const handleToggle = () =>{
     setActive(!active)
   }
+
+useEffect(()=>{
+  if(window.innerWidth > 768) {
+    setActive(true)
+  }else{
+    setActive(false)
+  }
+},[])
+
   return (
     <div className={inter.className}>
       {loading ? (
