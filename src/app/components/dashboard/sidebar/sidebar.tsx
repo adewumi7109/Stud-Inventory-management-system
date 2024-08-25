@@ -68,21 +68,21 @@ const menuItems = [
     // }
 ]
 
-function Sidebar({handleToggle}:any) {
+function Sidebar({handleToggle, active}:any) {
    
     return (
      <>
         <div>
           <div className={styles.header}>
-          <h1 style={{color: 'white', fontSize:"1.5rem"}}><Link href="/dashboard">Dashboard</Link></h1>
-          {/* <GiHamburgerMenu onClick={handleToggle} className={styles.burger} />  */}
+          <h1 style={{color: 'white', fontSize:"1.5rem",  display: active ? 'block' : 'none' }} ><Link href="/dashboard">Dashboard</Link></h1>
+          <GiHamburgerMenu onClick={handleToggle} className={styles.burger} /> 
           </div>
-            <ul className={styles.wrapper}>
+            <ul className={styles.wrapper} style={{display: active ? 'block' : 'none'}}>
                 {menuItems.map((item) => (
-                    <li key={item.title} className={styles.container}>
+                    <li onClick={ window.innerWidth <= 768? handleToggle : undefined} key={item.title}  className={styles.container}>
                         <span className={styles.title}>{item.title}</span>
                         {item.list.map((item) => (
-                            <MenuLink item={item} key={item.title} />
+                            <MenuLink  item={item} key={item.title} />
                         ))}
                     </li>
 

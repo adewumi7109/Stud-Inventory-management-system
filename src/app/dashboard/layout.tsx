@@ -18,14 +18,20 @@ export default function DashboardLayout({
   const [loading, setLoading] = useState(true);
   const { getUserName, isAuthLoading }: any = useContext(AuthContext); // Include isAuthLoading
   const router = useRouter();
-  const [active, setActive] = useState(true);
+  const [active, setActive] = useState(false);
 
   useEffect(() => {
     setLoading(true);
     const timer = setTimeout(() => setLoading(false), 2000);
     return () => clearTimeout(timer); // Clean up the timeout
   }, []);
-
+  // window.addEventListener('resize', function() {
+  //   if (window.innerWidth <= 768) {
+  //     setActive(true)
+  //   }else{
+  //     setActive(false)
+  //   }
+  // });
   useEffect(() => {
     if (!isAuthLoading && !getUserName()) {
       router.push('/');
@@ -50,10 +56,10 @@ export default function DashboardLayout({
       ) : (
         <div className={styles.container}>
           <div className={active? styles.menu : styles.rmenu }>
-            <Sidebar handleToggle={handleToggle} />
+            <Sidebar active={active} handleToggle={handleToggle} />
           </div>
-          <div className={styles.content}>
-            <Navbar userName={getUserName} />
+          <div className={active? styles.content : styles.rcontent}>
+            <Navbar active={active} handleToggle={handleToggle} userName={getUserName} />
             {children}
           </div>
         </div>

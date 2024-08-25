@@ -95,7 +95,7 @@ const StudentInvoicesTable = ({ invoices, loading }) => {
           <Search placeholder="Search for invoice.." />
           <div></div>
         </div>
-
+        <div style={{overflowX: 'auto'}}>
         <table className={styles.table}>
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -126,6 +126,8 @@ const StudentInvoicesTable = ({ invoices, loading }) => {
             )}
           </tbody>
         </table>
+          
+           </div>
         <div className={styles.paginationCont}>
           <div>
             {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}

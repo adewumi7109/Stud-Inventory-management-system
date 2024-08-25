@@ -10,6 +10,11 @@
    
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
+.burger{
+    color:var(--bgSoft);
+    font-size: 1.5rem;
+    cursor: pointer;
+}
 
 .profile{
     border-radius: 50%;
@@ -43,4 +48,9 @@
     border-radius: 3px;
     color: white;
     padding: 5px;
+}
+@media (max-width: 720px){
+.pathname{
+    display: none;
+}
 }

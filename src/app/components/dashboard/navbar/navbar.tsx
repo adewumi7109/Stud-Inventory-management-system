@@ -7,12 +7,13 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { useContext } from 'react'
 import AuthContext from '@/app/context/AuthContext'
+import { GiHamburgerMenu } from 'react-icons/gi'
 
 
 // import style from '../'
 
 
-function Navbar({userName}:any) {
+function Navbar({userName, handleToggle, active}:any) {
   const {logout}:any = useContext(AuthContext);
 
 
@@ -20,7 +21,8 @@ function Navbar({userName}:any) {
   const pathname = usePathname();
   return (
     <div className={styles.container}>
-      <div>
+      <div style={{display:'flex', gap:'15px', alignItems: 'center'}}>
+      <GiHamburgerMenu onClick={handleToggle} style={{display: !active? 'block': 'none'}} className={styles.burger} /> 
         <span className={styles.pathname}>{pathname.slice(1).replaceAll('/', ' / ')}</span>
 
         

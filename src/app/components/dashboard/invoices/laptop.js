@@ -113,7 +113,7 @@ const LaptopInvoicesTable = ({ invoices, loading }) => {
     <div>
       <div className={styles.container}>
         <div className={styles.top}></div>
-
+        <div style={{overflowX: 'auto'}}>
         <table className={styles.table}>
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -149,6 +149,8 @@ const LaptopInvoicesTable = ({ invoices, loading }) => {
             )}
           </tbody>
         </table>
+
+        </div>
         <div className={styles.paginationCont}>
           <div>
             {table.getState().pagination.pageIndex + 1} of{" "}

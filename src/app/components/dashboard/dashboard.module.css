@@ -1,7 +1,4 @@
-.container{
-    
-   
-}
+
 .menu{
     flex: 1;
     background-color: var(--bgSoft);
@@ -14,10 +11,15 @@
     z-index: 1;
     width: 280px;
 }
-/* .rmenu{
-    width: 280px;
-} */
-
+.rmenu{
+   
+    display: none;
+}
+.rcontent{
+    /* margin-left: 70px; */
+    width:100%;
+    padding: 20px;
+}
 .content{
     margin-left: 280px;
     width:(100% - 280px);
@@ -26,8 +28,28 @@
 
 .loader{
     display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
+    justify-content: center; 
+    align-items: center; 
     height: 100vh; 
     background-color: transparent;
+}
+
+@media (max-width: 768px) {
+    .menu{
+       
+        background-color: var(--bgSoft);
+        padding: 20px;
+        height: 100vh;
+        position: absolute;
+        top: 0;
+        left: 0;
+        overflow-x: hidden;
+        z-index: 1;
+        width: 280px;
+    }
+    .content{
+        margin-left: 0;
+        width:100%;
+        padding: 20px;
+    }
 }

@@ -120,6 +120,7 @@ const Studenttable = ({ searchQuery, students, loading, closeModal, isModalOpen,
             <Modal isOpen={isModalOpen} closeModal={closeModal} onClose={closeModal} />
           </div>
         </div>
+        <div style={{overflowX: 'auto'}}>
         <table className={styles.table}>
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -154,6 +155,8 @@ const Studenttable = ({ searchQuery, students, loading, closeModal, isModalOpen,
             )}
           </tbody>
         </table>
+        </div>
+       
         <div className={styles.paginationCont}>
           <div>
             {pageNumber} of {totalPages}

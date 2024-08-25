@@ -47,6 +47,7 @@ function Audittable({searchQuery, audits, loading, pageNumber, totalPages, handl
             <Modal isOpen={isModalOpen} closeModal={closeModal} onClose={closeModal} />
           </div> */}
         </div>
+        <div style={{overflowX: 'auto'}}>
         <table className={styles.table}>
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -80,6 +81,7 @@ function Audittable({searchQuery, audits, loading, pageNumber, totalPages, handl
             )}
           </tbody>
         </table>
+        </div>
         <div className={styles.paginationCont}>
           <div>
             {pageNumber} of {totalPages}

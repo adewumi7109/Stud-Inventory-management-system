@@ -114,6 +114,7 @@ function Laptoptable({
             />
           </div>
         </div>
+        <div style={{overflowX: 'auto'}}> 
 
         <table className={styles.table}>
           <thead>
@@ -152,6 +153,7 @@ function Laptoptable({
             )}
           </tbody>
         </table>
+        </div>
 
         <div className={styles.paginationCont}>
           <div>
