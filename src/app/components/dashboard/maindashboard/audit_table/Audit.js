@@ -10,7 +10,7 @@ const columns = [
   {
     accessorKey: 'timestamp',
     header: 'Time',
-    cell: (props) => <p>{props.getValue()}</p> // Render status as string
+    cell: (props) => <p>{props.getValue().split("T")[0]}</p> // Render status as string
   },
   {
     accessorKey: 'details',
@@ -71,9 +71,8 @@ function Audittable({searchQuery, audits, loading, pageNumber, totalPages, handl
                 <tr key={row.id}>
                   {row.getVisibleCells().map(cell => (
                     <td key={cell.id}>
-                      <Link href={`/dashboard/school/students/${row.original.studentId}`}>
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                      </Link>
+                    
                     </td>
                   ))}
                 </tr>

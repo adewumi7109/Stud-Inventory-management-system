@@ -6,7 +6,16 @@
     margin-bottom: 12px;
     color: white;
 }
-
+.header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.burger{
+    color: white;
+    font-size: 1.9rem;
+    cursor: pointer;
+}
 .wrapper{
     margin-top: 35px;
 }

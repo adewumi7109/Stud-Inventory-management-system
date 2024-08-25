@@ -6,6 +6,7 @@ import { MdOutlinePeople } from "react-icons/md";
 import { FaChartBar, FaFileInvoice } from "react-icons/fa";
 import styles from './sidebar.module.css'
 import Link from 'next/link';
+import { GiHamburgerMenu } from "react-icons/gi";
 
 const menuItems = [
 
@@ -67,11 +68,15 @@ const menuItems = [
     // }
 ]
 
-function Sidebar() {
+function Sidebar({handleToggle}:any) {
+   
     return (
      <>
         <div>
-            <h1 style={{color: 'white', fontSize:"1.5rem"}}><Link href="/dashboard">Dashboard</Link></h1>
+          <div className={styles.header}>
+          <h1 style={{color: 'white', fontSize:"1.5rem"}}><Link href="/dashboard">Dashboard</Link></h1>
+          {/* <GiHamburgerMenu onClick={handleToggle} className={styles.burger} />  */}
+          </div>
             <ul className={styles.wrapper}>
                 {menuItems.map((item) => (
                     <li key={item.title} className={styles.container}>

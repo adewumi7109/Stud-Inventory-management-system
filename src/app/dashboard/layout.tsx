@@ -18,6 +18,7 @@ export default function DashboardLayout({
   const [loading, setLoading] = useState(true);
   const { getUserName, isAuthLoading }: any = useContext(AuthContext); // Include isAuthLoading
   const router = useRouter();
+  const [active, setActive] = useState(true);
 
   useEffect(() => {
     setLoading(true);
@@ -31,6 +32,9 @@ export default function DashboardLayout({
     }
   }, [getUserName, isAuthLoading, router]);
 
+  const handleToggle = () =>{
+    setActive(!active)
+  }
   return (
     <div className={inter.className}>
       {loading ? (
@@ -45,8 +49,8 @@ export default function DashboardLayout({
         </div>
       ) : (
         <div className={styles.container}>
-          <div className={styles.menu}>
-            <Sidebar />
+          <div className={active? styles.menu : styles.rmenu }>
+            <Sidebar handleToggle={handleToggle} />
           </div>
           <div className={styles.content}>
             <Navbar userName={getUserName} />
